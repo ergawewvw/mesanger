@@ -1,2 +1,25 @@
 :root{font-family:Inter,system-ui,sans-serif;color:#e7ebf7;background:#0c1220;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{border:0;border-radius:9px;padding:11px 14px;background:#5865f2;color:white;cursor:pointer}button:hover{filter:brightness(1.12)}button:disabled{opacity:.6}input{border:1px solid #33405b;border-radius:9px;background:#161f32;color:white;padding:12px;width:100%;outline:none}input:focus{border-color:#8392ff}.auth{max-width:400px;margin:9vh auto;padding:30px;background:#172033;border:1px solid #303b52;border-radius:18px}.auth form{display:grid;gap:12px}.auth>button{margin-top:14px;background:#273451}.error{color:#ffb6b6}.muted{color:#9aa7c0}.layout{display:grid;grid-template-columns:320px 1fr;height:100dvh}.sidebar{padding:18px;background:#151e30;overflow:auto;border-right:1px solid #2c3950}.sidebar>button{margin-bottom:20px}.sidebar h3{margin-top:26px}.sidebar #chats{display:grid}.sidebar div button{display:block;width:100%;text-align:left;margin:6px 0;background:#27354d}.main{display:flex;flex-direction:column;min-width:0}.main header{padding:21px;border-bottom:1px solid #303a50;font-weight:700}.messages{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:12px}.bubble{max-width:min(75%,500px);align-self:flex-start;padding:12px 15px;background:#29364c;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}.bubble.mine{align-self:flex-end;background:#4856bc}.bubble small{display:block;opacity:.7;margin-top:7px;font-size:10px;text-align:right}.composer{display:flex;gap:10px;padding:16px;border-top:1px solid #303a50}.composer button{min-width:90px}@media(max-width:650px){.layout{grid-template-columns:135px 1fr}.sidebar{padding:10px}.sidebar h2{font-size:18px}.sidebar button{font-size:12px;padding:8px}.main header{padding:14px}.messages{padding:10px}.composer{padding:8px}.composer button{min-width:55px;padding:8px}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;width:100%}.stat{background:#252047;border:1px solid #6446a0;padding:24px;border-radius:16px;display:grid;gap:10px}.stat strong{font-size:36px;color:#c9a0ff}.stat span{color:#b5b3c6}.main header button{margin-left:12px;font-size:12px}
+
+/* NexChat violet messenger design */
+:root{--violet:#8c3df3;--surface:#171327;--outline:#382d55}
+body{background:#0e0b19;color:#f4f0ff}
+.layout{grid-template-columns:340px minmax(0,1fr);background:#0d0b18}
+.sidebar{background:#161225;border-right:1px solid var(--outline);padding:24px}
+.sidebar h2{font-size:27px;letter-spacing:-.8px;margin-top:4px}
+.sidebar h2::before{content:'N';display:inline-grid;place-items:center;width:42px;height:42px;margin-right:12px;background:linear-gradient(135deg,#d586ff,#7535e9);border-radius:13px;font-size:29px;font-style:italic}
+.sidebar h3{color:#b4a5d1;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.sidebar input{background:#231b36;border:1px solid #45345e}
+.sidebar div button{background:#281f40;border:1px solid #41305f;border-radius:13px;padding:14px}
+button{background:linear-gradient(125deg,#9847fb,#6030ce);border-radius:12px}
+.main{background:radial-gradient(circle at 65% 40%,#211534,#0e0b1b 70%)}
+.main header{background:#171225;border-color:#392b52;padding:22px;font-size:18px}
+.messages{background-image:radial-gradient(#6e42a219 1px,transparent 1px);background-size:27px 27px}
+.bubble{background:#29213f;border-radius:17px;box-shadow:0 6px 25px #0003}
+.bubble.mine{background:linear-gradient(120deg,#8a38ef,#6031c8)}
+.composer{background:#171225;border-color:#3a2a55}
+.composer input{background:#29213e;border-color:#45325e}
+.stats{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.stat{background:#241b3b;border:1px solid #6a3f95}
+.stat strong{color:#d6a4ff}
+@media(max-width:650px){.layout{grid-template-columns:145px 1fr}.sidebar{padding:10px}.sidebar h2{font-size:18px}.sidebar h2::before{width:27px;height:27px;font-size:18px}}
