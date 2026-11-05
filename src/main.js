@@ -29,7 +29,7 @@ async function adminDashboard(){const {data,error}=await db.rpc('nexchat_admin_s
 
 
 async function editProfile(){
-const {data:p,error}=await db.from('profiles').select('username,display_name').eq('id',me.id).single();
+const {data:p,error}=await db.from('profiles').select('username,display_name,avatar_url').eq('id',me.id).single();
 if(error)return alert(error.message);
 const panel=node('section','','profile-editor'),name=input('Ismingiz'),handle=input('Username');
 name.value=p.display_name;handle.value=p.username;
@@ -39,7 +39,7 @@ if(!/^[a-z0-9_]{3,24}$/.test(username)||!display_name)return alert('Ism va usern
 const {error:e}=await db.from('profiles').update({username,display_name}).eq('id',me.id);
 if(e)alert(e.message);else alert('Profil yangilandi');
 });
-panel.append(node('div','◉','profile-avatar'),node('h2','Mening profilim'),node('label','Ko‘rinadigan ism'),name,node('label','Username'),handle,node('p',me.email,'muted'),save);
+const avatar=node('div','◉','profile-avatar');if(p.avatar_url){const img=document.createElement('img');img.src=p.avatar_url;img.alt='Profil rasmi';avatar.replaceChildren(img)}const photo=input('','file');photo.accept='image/png,image/jpeg,image/webp';photo.onchange=async()=>{const file=photo.files?.[0];if(!file)return;if(file.size>2097152)return alert('Rasm 2 MB dan kichik bo‘lsin');if(!['image/png','image/jpeg','image/webp'].includes(file.type))return alert('JPG, PNG yoki WebP tanlang');const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=me.id+'/'+Date.now()+'.'+ext;const {error:e}=await db.storage.from('avatars').upload(path,file,{contentType:file.type});if(e)return alert(e.message);const {data}=db.storage.from('avatars').getPublicUrl(path);const {error:u}=await db.from('profiles').update({avatar_url:data.publicUrl}).eq('id',me.id);if(u)return alert(u.message);const img=document.createElement('img');img.src=data.publicUrl;img.alt='Profil rasmi';avatar.replaceChildren(img)};panel.append(avatar,node('label','Profil rasmini tanlang'),photo,node('h2','Mening profilim'),node('label','Ko‘rinadigan ism'),name,node('label','Username'),handle,node('p',me.email,'muted'),save);
 chat=null;group=null;title.textContent='Profil sozlamalari';messages.replaceChildren(panel);
 }
 home().catch(e=>{app.textContent=e.message});
