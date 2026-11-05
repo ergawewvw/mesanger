@@ -1,0 +1,15 @@
+create table if not exists public.profiles(id uuid primary key references auth.users(id) on delete cascade,username text not null unique check(username ~ '^[a-z0-9_]{3,24}$'),display_name text not null check(char_length(display_name) between 1 and 60),created_at timestamptz not null default now());
+create table if not exists public.conversations(id uuid primary key default gen_random_uuid(),user_a uuid not null references public.profiles(id) on delete cascade,user_b uuid not null references public.profiles(id) on delete cascade,created_at timestamptz not null default now(),constraint ordered_pair check(user_a < user_b),constraint unique_pair unique(user_a,user_b));
+create table if not exists public.messages(id bigint generated always as identity primary key,conversation_id uuid not null references public.conversations(id) on delete cascade,sender_id uuid not null references public.profiles(id) on delete cascade,body text not null check(char_length(trim(body)) between 1 and 4000),created_at timestamptz not null default now());
+create index if not exists messages_conversation_created_idx on public.messages(conversation_id,created_at);
+alter table public.profiles enable row level security;
+alter table public.conversations enable row level security;
+alter table public.messages enable row level security;
+create policy "Search profiles" on public.profiles for select to authenticated using (true);
+create policy "Insert own profile" on public.profiles for insert to authenticated with check (id=(select auth.uid()));
+create policy "Update own profile" on public.profiles for update to authenticated using(id=(select auth.uid())) with check(id=(select auth.uid()));
+create policy "Read participant conversations" on public.conversations for select to authenticated using((select auth.uid()) in(user_a,user_b));
+create policy "Create participant conversations" on public.conversations for insert to authenticated with check((select auth.uid()) in(user_a,user_b));
+create policy "Read participant messages" on public.messages for select to authenticated using(exists(select 1 from public.conversations c where c.id=conversation_id and (select auth.uid()) in(c.user_a,c.user_b)));
+create policy "Send own participant messages" on public.messages for insert to authenticated with check(sender_id=(select auth.uid()) and exists(select 1 from public.conversations c where c.id=conversation_id and (select auth.uid()) in(c.user_a,c.user_b)));
+alter publication supabase_realtime add table public.messages;
