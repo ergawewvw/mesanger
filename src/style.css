@@ -33,3 +33,5 @@ button{background:linear-gradient(125deg,#9847fb,#6030ce);border-radius:12px}
 .layout>.sidebar{display:none}
 @media(max-width:1100px){.layout{grid-template-columns:130px minmax(0,1fr)}.detail-pane{display:none}}
 @media(max-width:720px){.layout{grid-template-columns:80px minmax(0,1fr)}.nav-rail{padding:10px 4px}.rail-item{font-size:11px;overflow-wrap:anywhere}}
+
+.layout{position:relative}.layout>.sidebar.sidebar-open{display:block;position:absolute;z-index:20;left:175px;top:0;bottom:0;width:min(320px,calc(100vw - 175px));box-shadow:12px 0 40px #0009;overflow:auto}@media(max-width:1100px){.layout>.sidebar.sidebar-open{left:130px;width:min(320px,calc(100vw - 130px))}}@media(max-width:720px){.layout>.sidebar.sidebar-open{left:80px;width:min(290px,calc(100vw - 80px))}}
